@@ -14,15 +14,23 @@ const Index = () => {
   const [generatedStory, setGeneratedStory] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [characters, setCharacters] = useState([
-    { id: 1, name: 'Алекс', age: 25, personality: 'Страстный и уверенный' },
-    { id: 2, name: 'Мия', age: 23, personality: 'Загадочная и чувственная' }
+    { id: 1, name: 'Капитан Зара', age: 35, personality: 'Опытный космолетчик с железной волей', role: 'Протагонист' },
+    { id: 2, name: 'Доктор Кейн', age: 42, personality: 'Гениальный ученый с темным прошлым', role: 'Антагонист' },
+    { id: 3, name: 'Лина', age: 28, personality: 'Журналист, ищущий правду', role: 'Союзник' }
   ]);
+  
+  const storyTemplates = [
+    { id: 1, title: 'Путешествие героя', description: 'Классическая структура: призыв → испытания → трансформация' },
+    { id: 2, title: 'Загадка и разгадка', description: 'Детективная структура с системой улик и красных селедок' },
+    { id: 3, title: 'Противостояние', description: 'Конфликт между двумя силами с неожиданным разрешением' },
+    { id: 4, title: 'Превращение', description: 'История изменения персонажа под влиянием событий' }
+  ];
 
   const generateStory = async () => {
     setIsGenerating(true);
     // Симуляция генерации
     setTimeout(() => {
-      setGeneratedStory('История генерируется на основе ваших настроек персонажей и предпочтений. В полной версии здесь будет работать продвинутый ИИ-генератор, создающий уникальные сюжеты.');
+      setGeneratedStory('Генерируется уникальная история на основе выбранного жанра, стиля и персонажей. ИИ создает оригинальный сюжет с проработанными диалогами, описаниями и развитием характеров. Это демо-версия - в полной версии будут доступны расширенные настройки и экспорт в различные форматы.');
       setIsGenerating(false);
     }, 3000);
   };
@@ -35,15 +43,15 @@ const Index = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-gradient-to-r from-[#FF8B6B] to-[#70d0d0] rounded-lg flex items-center justify-center">
-                <Icon name="Sparkles" size={20} className="text-white" />
+                <Icon name="PenTool" size={20} className="text-white" />
               </div>
               <h1 className="text-2xl font-bold bg-gradient-to-r from-[#FF8B6B] to-[#70d0d0] bg-clip-text text-transparent">
-                StoryAI
+                WriteCraft
               </h1>
             </div>
             <div className="flex items-center space-x-4">
               <Badge variant="outline" className="border-[#FF8B6B] text-[#FF8B6B]">
-                Бесплатно
+                Платформа для писателей
               </Badge>
               <Button variant="outline" size="sm" className="border-gray-700">
                 <Icon name="Settings" size={16} className="mr-2" />
@@ -61,18 +69,37 @@ const Index = () => {
             <Card className="bg-gray-900/50 border-gray-800 backdrop-blur-sm">
               <CardHeader>
                 <CardTitle className="text-2xl flex items-center">
-                  <Icon name="BookOpen" size={24} className="mr-3 text-[#FF8B6B]" />
-                  Генератор историй
+                  <Icon name="PenTool" size={24} className="mr-3 text-[#FF8B6B]" />
+                  Генератор творческих историй
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div>
-                  <Label htmlFor="theme" className="text-sm font-medium">Тема истории</Label>
+                  <Label htmlFor="theme" className="text-sm font-medium">Основная идея</Label>
                   <Input 
                     id="theme"
-                    placeholder="Романтическая встреча в кафе..."
+                    placeholder="Детектив в космосе, драма о дружбе, комедия ошибок..."
                     className="mt-2 bg-gray-800/50 border-gray-700 focus:border-[#FF8B6B]"
                   />
+                </div>
+                
+                <div>
+                  <Label className="text-sm font-medium">Жанр</Label>
+                  <Select>
+                    <SelectTrigger className="mt-2 bg-gray-800/50 border-gray-700">
+                      <SelectValue placeholder="Выберите жанр" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-gray-900 border-gray-800">
+                      <SelectItem value="fantasy">📚 Фантастика</SelectItem>
+                      <SelectItem value="mystery">🔍 Детектив</SelectItem>
+                      <SelectItem value="drama">🎭 Драма</SelectItem>
+                      <SelectItem value="comedy">😄 Комедия</SelectItem>
+                      <SelectItem value="romance">💕 Романтика</SelectItem>
+                      <SelectItem value="thriller">⚡ Триллер</SelectItem>
+                      <SelectItem value="horror">👻 Хоррор</SelectItem>
+                      <SelectItem value="adventure">🏴‍☠️ Приключения</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
                 
                 <div>
@@ -99,10 +126,12 @@ const Index = () => {
                       <SelectValue placeholder="Выберите стиль" />
                     </SelectTrigger>
                     <SelectContent className="bg-gray-900 border-gray-800">
-                      <SelectItem value="romantic">Романтический</SelectItem>
-                      <SelectItem value="passionate">Страстный</SelectItem>
-                      <SelectItem value="mysterious">Загадочный</SelectItem>
-                      <SelectItem value="playful">Игривый</SelectItem>
+                      <SelectItem value="first-person">От первого лица</SelectItem>
+                      <SelectItem value="third-person">От третьего лица</SelectItem>
+                      <SelectItem value="dialogue">Диалоговый</SelectItem>
+                      <SelectItem value="descriptive">Описательный</SelectItem>
+                      <SelectItem value="minimalist">Минималистичный</SelectItem>
+                      <SelectItem value="poetic">Поэтичный</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -142,6 +171,10 @@ const Index = () => {
                         <Icon name="Download" size={16} className="mr-2" />
                         Сохранить
                       </Button>
+                      <Button variant="outline" size="sm" className="border-gray-700">
+                        <Icon name="Share" size={16} className="mr-2" />
+                        Поделиться
+                      </Button>
                     </div>
                   </div>
                 )}
@@ -149,23 +182,26 @@ const Index = () => {
             </Card>
           </div>
 
-          {/* Панель персонажей */}
+          {/* Панель персонажей и шаблонов */}
           <div>
             <Card className="bg-gray-900/50 border-gray-800 backdrop-blur-sm">
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Icon name="Users" size={20} className="mr-2 text-[#70d0d0]" />
-                  Персонажи
+                  Творческие инструменты
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <Tabs defaultValue="characters" className="w-full">
-                  <TabsList className="grid w-full grid-cols-2 bg-gray-800/50">
-                    <TabsTrigger value="characters" className="data-[state=active]:bg-[#FF8B6B]">
-                      Персонажи
+                  <TabsList className="grid w-full grid-cols-3 bg-gray-800/50">
+                    <TabsTrigger value="characters" className="data-[state=active]:bg-[#FF8B6B] text-xs">
+                      Герои
                     </TabsTrigger>
-                    <TabsTrigger value="create" className="data-[state=active]:bg-[#FF8B6B]">
+                    <TabsTrigger value="create" className="data-[state=active]:bg-[#FF8B6B] text-xs">
                       Создать
+                    </TabsTrigger>
+                    <TabsTrigger value="templates" className="data-[state=active]:bg-[#FF8B6B] text-xs">
+                      Шаблоны
                     </TabsTrigger>
                   </TabsList>
                   
@@ -178,6 +214,9 @@ const Index = () => {
                               <h4 className="font-semibold text-[#FF8B6B]">{character.name}</h4>
                               <p className="text-sm text-gray-400">Возраст: {character.age}</p>
                               <p className="text-xs text-gray-500 mt-1">{character.personality}</p>
+                              <Badge size="sm" variant="outline" className="mt-2 text-xs border-[#70d0d0] text-[#70d0d0]">
+                                {character.role}
+                              </Badge>
                             </div>
                             <Button variant="ghost" size="sm">
                               <Icon name="Edit" size={16} />
@@ -190,27 +229,33 @@ const Index = () => {
                   
                   <TabsContent value="create" className="space-y-4 mt-4">
                     <div>
-                      <Label htmlFor="char-name" className="text-sm">Имя</Label>
+                      <Label htmlFor="char-name" className="text-sm">Имя персонажа</Label>
                       <Input 
                         id="char-name"
-                        placeholder="Введите имя"
+                        placeholder="Елена Стоун"
                         className="mt-1 bg-gray-800/50 border-gray-700"
                       />
                     </div>
                     <div>
-                      <Label htmlFor="char-age" className="text-sm">Возраст</Label>
-                      <Input 
-                        id="char-age"
-                        type="number"
-                        placeholder="25"
-                        className="mt-1 bg-gray-800/50 border-gray-700"
-                      />
+                      <Label htmlFor="char-role" className="text-sm">Роль в истории</Label>
+                      <Select>
+                        <SelectTrigger className="mt-1 bg-gray-800/50 border-gray-700">
+                          <SelectValue placeholder="Выберите роль" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-gray-900 border-gray-800">
+                          <SelectItem value="protagonist">Главный герой</SelectItem>
+                          <SelectItem value="antagonist">Антагонист</SelectItem>
+                          <SelectItem value="ally">Союзник</SelectItem>
+                          <SelectItem value="mentor">Наставник</SelectItem>
+                          <SelectItem value="sidekick">Помощник</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                     <div>
-                      <Label htmlFor="char-personality" className="text-sm">Характер</Label>
+                      <Label htmlFor="char-personality" className="text-sm">Характер и мотивация</Label>
                       <Textarea 
                         id="char-personality"
-                        placeholder="Опишите характер персонажа..."
+                        placeholder="Опишите личность, цели и внутренние конфликты персонажа..."
                         className="mt-1 bg-gray-800/50 border-gray-700"
                         rows={3}
                       />
@@ -220,31 +265,69 @@ const Index = () => {
                       Создать персонажа
                     </Button>
                   </TabsContent>
+
+                  <TabsContent value="templates" className="space-y-3 mt-4">
+                    {storyTemplates.map((template) => (
+                      <Card key={template.id} className="bg-gray-800/30 border-gray-700 cursor-pointer hover:border-[#FF8B6B] transition-colors">
+                        <CardContent className="p-3">
+                          <h4 className="font-medium text-[#FF8B6B] text-sm">{template.title}</h4>
+                          <p className="text-xs text-gray-400 mt-1">{template.description}</p>
+                        </CardContent>
+                      </Card>
+                    ))}
+                    <Button variant="outline" className="w-full border-gray-700 text-xs">
+                      <Icon name="Library" size={14} className="mr-2" />
+                      Больше шаблонов
+                    </Button>
+                  </TabsContent>
                 </Tabs>
               </CardContent>
             </Card>
 
-            {/* Статистика */}
+            {/* Статистика и вдохновение */}
             <Card className="mt-6 bg-gray-900/50 border-gray-800 backdrop-blur-sm">
               <CardHeader>
                 <CardTitle className="text-lg flex items-center">
                   <Icon name="BarChart3" size={18} className="mr-2 text-[#70d0d0]" />
-                  Статистика
+                  Ваши достижения
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-400">Создано историй</span>
-                  <span className="font-semibold text-[#FF8B6B]">12</span>
+                  <span className="font-semibold text-[#FF8B6B]">42</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-400">Персонажей</span>
                   <span className="font-semibold text-[#70d0d0]">{characters.length}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-400">Избранное</span>
-                  <span className="font-semibold">8</span>
+                  <span className="text-sm text-gray-400">Использовано шаблонов</span>
+                  <span className="font-semibold">15</span>
                 </div>
+                <div className="flex justify-between">
+                  <span className="text-sm text-gray-400">Слов написано</span>
+                  <span className="font-semibold text-[#FF8B6B]">12,487</span>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Промпт дня */}
+            <Card className="mt-6 bg-gradient-to-br from-gray-900/50 to-gray-800/30 border-gray-700 backdrop-blur-sm">
+              <CardHeader>
+                <CardTitle className="text-lg flex items-center">
+                  <Icon name="Lightbulb" size={18} className="mr-2 text-[#FF8B6B]" />
+                  Идея дня
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-gray-300 leading-relaxed">
+                  "Что если в мире, где эмоции имеют физическую форму, главный герой потерял способность их чувствовать?"
+                </p>
+                <Button variant="ghost" size="sm" className="mt-3 text-[#70d0d0] hover:text-[#70d0d0]/80">
+                  <Icon name="RefreshCw" size={14} className="mr-2" />
+                  Другая идея
+                </Button>
               </CardContent>
             </Card>
           </div>
